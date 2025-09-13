@@ -2,9 +2,11 @@ import Copyright from '@/components/Copyright';
 import DataTable, { tableHeadersProps } from '@/components/DataTable';
 import { CorrelationController } from '@/core/domains/controllers/correlation.controller';
 import { DatasetController } from '@/core/domains/controllers/dataset.controller';
+import { ReliabilityController } from '@/core/domains/controllers/reliability.controller';
 import { VariableController } from '@/core/domains/controllers/variable.controller';
 import { Correlation } from '@/core/domains/models/correlation.model';
 import { Dataset } from '@/core/domains/models/dataset.model';
+import { Reliability } from '@/core/domains/models/reliability.model';
 import { Container, Text } from '@mantine/core';
 import React from 'react';
 
@@ -12,9 +14,12 @@ const HomePage = () => {
   const variableController = new VariableController();
   const datasetController = new DatasetController();
   const correlationController = new CorrelationController();
+  const reliabilityController = new ReliabilityController();
+
   const variableData = variableController.getAllVariable();
   const datasetData = datasetController.getAllDataset();
   const correlationSettingData = correlationController.getAllCorrelation();
+  const reliabilitySettingData = reliabilityController.getAllReliability();
 
   const matrixDataset = Dataset.toMatrix(datasetData, variableData);
   const dataView = matrixDataset.map((row, rowIndex) => {
@@ -35,6 +40,15 @@ const HomePage = () => {
     return { name: setting.name, table };
   });
 
+  const reliabilityResults = reliabilitySettingData.map((setting) => {
+    const selectedVariables = variableData.filter((v) => setting.variables.includes(v.name));
+    const alpha = Reliability.cronbachAlpha(
+      matrixDataset,
+      selectedVariables.map((v) => v.column!),
+    );
+    return { name: setting.name, alpha: alpha.toFixed(3) };
+  });
+
   const dataViewHeader: tableHeadersProps[] = [
     {
       label: '',
@@ -50,6 +64,7 @@ const HomePage = () => {
     <Container py={16} maw={900} fluid>
       <Text fw={'bold'}>Data View</Text>
       <DataTable mah={'85vh'} header={dataViewHeader} data={dataView} />
+
       {correlationResults.map((result, i) => {
         const header: tableHeadersProps[] = [
           { label: 'Variable', key: 'variable' },
@@ -69,6 +84,22 @@ const HomePage = () => {
           </React.Fragment>
         );
       })}
+
+      {reliabilityResults.map((result, i) => (
+        <React.Fragment key={i}>
+          <Text fw={'bold'} mt={32}>
+            {result.name}
+          </Text>
+          <DataTable
+            mah={'200px'}
+            header={[
+              { label: 'Construct', key: 'name' },
+              { label: 'Cronbach Alpha', key: 'alpha' },
+            ]}
+            data={[result]}
+          />
+        </React.Fragment>
+      ))}
       <Copyright />
     </Container>
   );

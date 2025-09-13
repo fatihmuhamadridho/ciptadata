@@ -1,5 +1,6 @@
 import Copyright from '@/components/Copyright';
 import DataTable, { tableHeadersProps } from '@/components/DataTable';
+import NormalityCharts from '@/components/NormalityCharts';
 import { CorrelationController } from '@/core/domains/controllers/correlation.controller';
 import { DatasetController } from '@/core/domains/controllers/dataset.controller';
 import { ReliabilityController } from '@/core/domains/controllers/reliability.controller';
@@ -100,6 +101,7 @@ const HomePage = () => {
           />
         </React.Fragment>
       ))}
+      <NormalityCharts />
       <Copyright />
     </Container>
   );

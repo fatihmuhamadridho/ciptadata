@@ -276,6 +276,136 @@ export class DatasetController {
         value: 3,
         cell: [19, 2],
       },
+      // column 21
+      {
+        value: 3,
+        cell: [20, 0],
+      },
+      {
+        value: 3,
+        cell: [20, 1],
+      },
+      {
+        value: 3,
+        cell: [20, 2],
+      },
+      // column 22
+      {
+        value: 3,
+        cell: [21, 0],
+      },
+      {
+        value: 3,
+        cell: [21, 1],
+      },
+      {
+        value: 3,
+        cell: [21, 2],
+      },
+      // column 23
+      {
+        value: 3,
+        cell: [22, 0],
+      },
+      {
+        value: 3,
+        cell: [22, 1],
+      },
+      {
+        value: 3,
+        cell: [22, 2],
+      },
+      // column 24
+      {
+        value: 3,
+        cell: [23, 0],
+      },
+      {
+        value: 3,
+        cell: [23, 1],
+      },
+      {
+        value: 3,
+        cell: [23, 2],
+      },
+      // column 25
+      {
+        value: 3,
+        cell: [24, 0],
+      },
+      {
+        value: 3,
+        cell: [24, 1],
+      },
+      {
+        value: 3,
+        cell: [24, 2],
+      },
+      // column 26
+      {
+        value: 3,
+        cell: [25, 0],
+      },
+      {
+        value: 3,
+        cell: [25, 1],
+      },
+      {
+        value: 3,
+        cell: [25, 2],
+      },
+      // column 27
+      {
+        value: 3,
+        cell: [26, 0],
+      },
+      {
+        value: 3,
+        cell: [26, 1],
+      },
+      {
+        value: 3,
+        cell: [26, 2],
+      },
+      // column 28
+      {
+        value: 3,
+        cell: [27, 0],
+      },
+      {
+        value: 3,
+        cell: [27, 1],
+      },
+      {
+        value: 3,
+        cell: [27, 2],
+      },
+      // column 29
+      {
+        value: 3,
+        cell: [28, 0],
+      },
+      {
+        value: 3,
+        cell: [28, 1],
+      },
+      {
+        value: 3,
+        cell: [28, 2],
+      },
+      // column 30
+      {
+        value: 3,
+        cell: [29, 0],
+      },
+      {
+        value: 3,
+        cell: [29, 1],
+      },
+      {
+        value: 3,
+        cell: [29, 2],
+      },
     ];
   }
 }

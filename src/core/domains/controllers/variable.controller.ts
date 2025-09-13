@@ -18,6 +18,12 @@ export class VariableController {
         name: 'X1.3',
         column: 2,
       },
+      {
+        id: '1',
+        name: 'X1',
+        column: 3,
+        expression: 'X1.1 + X1.2 + X1.3',
+      },
     ];
   }
 }

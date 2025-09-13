@@ -11,7 +11,7 @@ const HomePage = () => {
   const datasetController = new DatasetController();
   const variableData = variableController.getAllVariable();
   const datasetData = datasetController.getAllDataset();
-  const matrixDataset = Dataset.toMatrix(datasetData);
+  const matrixDataset = Dataset.toMatrix(datasetData, variableData);
 
   const dataView = matrixDataset.map((row, rowIndex) => {
     const rowObj: Record<string, number | string> = {

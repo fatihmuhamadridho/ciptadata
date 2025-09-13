@@ -17,13 +17,6 @@ const HomePage = () => {
   const correlationSettingData = correlationController.getAllCorrelation();
 
   const matrixDataset = Dataset.toMatrix(datasetData, variableData);
-  const correlationTable = Correlation.buildTable(matrixDataset, variableData);
-  const correlationResults = correlationSettingData.map((setting) => {
-    const selectedVariables = variableData.filter((v) => setting.variables.includes(v.name));
-    const table = Correlation.buildTable(matrixDataset, selectedVariables);
-    return { name: setting.name, table };
-  });
-
   const dataView = matrixDataset.map((row, rowIndex) => {
     const rowObj: Record<string, number | string> = {
       index: rowIndex + 1,
@@ -34,6 +27,12 @@ const HomePage = () => {
     });
 
     return rowObj;
+  });
+
+  const correlationResults = correlationSettingData.map((setting) => {
+    const selectedVariables = variableData.filter((v) => setting.variables.includes(v.name));
+    const table = Correlation.buildTable(matrixDataset, selectedVariables);
+    return { name: setting.name, table };
   });
 
   const dataViewHeader: tableHeadersProps[] = [

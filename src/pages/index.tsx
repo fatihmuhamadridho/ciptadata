@@ -1,5 +1,6 @@
 import Copyright from '@/components/Copyright';
 import DataTable, { tableHeadersProps } from '@/components/DataTable';
+import { CorrelationController } from '@/core/domains/controllers/correlation.controller';
 import { DatasetController } from '@/core/domains/controllers/dataset.controller';
 import { VariableController } from '@/core/domains/controllers/variable.controller';
 import { Correlation } from '@/core/domains/models/correlation.model';
@@ -10,10 +11,18 @@ import React from 'react';
 const HomePage = () => {
   const variableController = new VariableController();
   const datasetController = new DatasetController();
+  const correlationController = new CorrelationController();
   const variableData = variableController.getAllVariable();
   const datasetData = datasetController.getAllDataset();
+  const correlationSettingData = correlationController.getAllCorrelation();
+
   const matrixDataset = Dataset.toMatrix(datasetData, variableData);
   const correlationTable = Correlation.buildTable(matrixDataset, variableData);
+  const correlationResults = correlationSettingData.map((setting) => {
+    const selectedVariables = variableData.filter((v) => setting.variables.includes(v.name));
+    const table = Correlation.buildTable(matrixDataset, selectedVariables);
+    return { name: setting.name, table };
+  });
 
   const dataView = matrixDataset.map((row, rowIndex) => {
     const rowObj: Record<string, number | string> = {
@@ -27,32 +36,40 @@ const HomePage = () => {
     return rowObj;
   });
 
-  console.log({ variableData, matrixDataset, dataView, correlationTable });
-
   const dataViewHeader: tableHeadersProps[] = [
     {
       label: '',
       key: 'index',
     },
     ...variableData.map((item) => ({
-      label: item.label ?? item.name,
+      label: item.name,
       key: item.name,
     })),
   ];
 
-  const correlationHeader: tableHeadersProps[] = [
-    { label: 'Variable', key: 'variable' },
-    ...variableData.map((v) => ({ label: v.name, key: v.name })),
-  ];
-
   return (
-    <Container py={16} fluid>
+    <Container py={16} maw={900} fluid>
       <Text fw={'bold'}>Data View</Text>
       <DataTable mah={'85vh'} header={dataViewHeader} data={dataView} />
-      <Text fw={'bold'} mt={32}>
-        Correlations
-      </Text>
-      <DataTable mah={'85vh'} header={correlationHeader} data={correlationTable} />
+      {correlationResults.map((result, i) => {
+        const header: tableHeadersProps[] = [
+          { label: 'Variable', key: 'variable' },
+          ...(result.table.length > 0
+            ? Object.keys(result.table[0])
+                .filter((k) => k !== 'variable')
+                .map((k) => ({ label: k, key: k }))
+            : []),
+        ];
+
+        return (
+          <React.Fragment key={i}>
+            <Text fw={'bold'} mt={32}>
+              {correlationSettingData[i].name}
+            </Text>
+            <DataTable mah={'85vh'} header={header} data={result.table} />
+          </React.Fragment>
+        );
+      })}
       <Copyright />
     </Container>
   );
